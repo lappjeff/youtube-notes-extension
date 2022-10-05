@@ -1,0 +1,11 @@
+#popup-content {
+    padding: 5px;
+}
+
+.description, .title {
+    display: block;
+}
+
+input {
+    margin-bottom: 5px;
+}

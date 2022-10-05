@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="popup.css"/>
-    </head>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
 
-    <body>
-        <div id="popup-content">
-            <button class="noteBtn">
-                Note
-            </button>
-        </div>
-        <script src="../../shared.js" type="module"></script>
-        <script src="popup.js"></script>
-    </body>
+  <body>
+    <div id="popup-content">
+      <label for="title">Title</label>
+      <input type="text" class="title" name="title" />
+
+      <label for="description">Description</label>
+      <input type="text" class="description" name="description" />
+      <button class="noteBtn">Save</button>
+    </div>
+
+    <script src="../../shared.js" type="module"></script>
+    <script src="popup.js"></script>
+  </body>
 </html>
