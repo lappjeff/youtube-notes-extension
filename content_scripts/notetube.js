@@ -8,6 +8,7 @@ csPort.onMessage.addListener((m) => {
       data: {
         timestamp: ytPlayer.currentTime,
       },
+      type: 'timestamp'
     });
   }
 });
