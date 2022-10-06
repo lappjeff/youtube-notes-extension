@@ -5,7 +5,7 @@
 
   "description": "Save timestamps of interesting content in YT videos",
 
-  "permissions": ["activeTab"],
+  "permissions": ["storage"],
 
   "background": {"scripts": ["./background_scripts/messenger.js"]},
 
