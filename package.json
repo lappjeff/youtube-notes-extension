@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "watch": "parcel watch src/manifest.json --host localhost --config @parcel/config-webextension &",
-    "start": "npm run watch && web-ext run -s ./dist --start-url https://www.youtube.com/watch?v=ZgmijdM4q_s --devtools",
+    "start": "npm run watch && web-ext run -s ./dist --start-url https://www.youtube.com/watch?v=ZgmijdM4q_s",
     "build": "parcel build src/manifest.json"
   },
   "keywords": [],
