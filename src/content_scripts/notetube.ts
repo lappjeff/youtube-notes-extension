@@ -46,7 +46,6 @@ function handleMessages(): void {
   browser.runtime.onMessage.addListener((message: MessageOption) => {
     const player = getPlayer();
 
-    console.log(player);
     if (!player) throw "No video player found.";
 
     const videoId = getQueryParam(YTParam.VIDEO_ID);
