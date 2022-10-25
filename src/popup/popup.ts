@@ -10,15 +10,19 @@ const descriptionInput = document.getElementsByClassName(
   "description"
 )[0] as HTMLInputElement;
 
-noteButton.addEventListener(
-  "click",
-  async () =>
+noteButton.addEventListener("click", async () => {
+  try {
     await saveNote({
       ...videoData,
       title: titleInput.value,
-      description: titleInput.value,
-    })
-);
+      description: descriptionInput.value,
+    });
+
+    window.close();
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 const storage = browser.storage.sync;
 
