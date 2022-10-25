@@ -1,8 +1,6 @@
 import { MessageType, VideoPayload } from "../models/message.model";
+import { VideoNote } from "../models/storage.model";
 import { YTParam } from "../models/youtube.model";
-import { PortName } from "../models/port.model";
-
-const popupPort = browser.runtime.connect({ name: PortName.POPUP_PORT });
 
 const noteButton = document.getElementsByClassName("noteBtn")[0];
 const titleInput = document.getElementsByClassName(
@@ -24,29 +22,32 @@ noteButton.addEventListener(
 
 const storage = browser.storage.sync;
 
+let videoData: VideoNote | null = null;
+
 (async () => {
-  // videoId = await getVideoId();
   const activeTab = await getActiveTab();
 
   const { timestamp, videoId } = await requestVideoData(activeTab);
 
   const timestampedUrl = `https://youtu.be/${videoId}?${YTParam.TIMESTAMP}=${timestamp}`;
 
-  console.log(timestamp, videoId);
-  let videoNotes = await storage.get(videoId);
-
-  // TODO - handle video notes update
-  // if (!Object.keys(videoNotes).length) {
-  //   storage.set({ [videoId]: {} });
-  // }
-
-  // const videoData = { ...videoNotes, ...data, url: timestampedUrl };
-  // await storage.set({ videoId: videoData });
+  videoData = {
+    startTime: timestamp,
+    id: videoId,
+    url: timestampedUrl,
+    title: "",
+    description: "",
+  };
 })();
 
-function takeNote() {
-  console.log("save note here");
-  // TODO - get value of inputs and save to storage
+async function saveNote(video: VideoNote): Promise<void> {
+  const existingNotes: { [videoId: string]: VideoNote[] } = await storage.get(
+    video.id
+  );
+
+  await storage.set({
+    [video.id]: [video, ...(existingNotes[video.id] || [])],
+  });
 }
 
 async function getActiveTab(): Promise<browser.tabs.Tab> {
