@@ -5,8 +5,22 @@ import { PortName } from "../models/port.model";
 const popupPort = browser.runtime.connect({ name: PortName.POPUP_PORT });
 
 const noteButton = document.getElementsByClassName("noteBtn")[0];
+const titleInput = document.getElementsByClassName(
+  "title"
+)[0] as HTMLInputElement;
+const descriptionInput = document.getElementsByClassName(
+  "description"
+)[0] as HTMLInputElement;
 
-noteButton.addEventListener("click", takeNote);
+noteButton.addEventListener(
+  "click",
+  async () =>
+    await saveNote({
+      ...videoData,
+      title: titleInput.value,
+      description: titleInput.value,
+    })
+);
 
 const storage = browser.storage.sync;
 
