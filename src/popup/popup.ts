@@ -7,6 +7,19 @@ import { VideoNote } from "../models/storage.model";
 class Popup {
   private videoData: VideoNote;
   private storage = browser.storage.sync;
+  private saveBtn: HTMLButtonElement;
+
+  get titleValid(): boolean {
+    return this.videoData?.title?.length > 0;
+  }
+
+  get descriptionValid(): boolean {
+    return this.videoData?.description?.length > 0;
+  }
+
+  get canSave(): boolean {
+    return this.titleValid && this.descriptionValid;
+  }
 
   public constructor() {
     this.initPopup();
@@ -56,18 +69,25 @@ class Popup {
       className: "btn btn-danger btn-md",
     });
 
-    const saveBtn = createElement(document, buttonContainer, "button", {
-      textContent: "Save",
-      type: "button",
-      className: "btn btn-success btn-md",
-    });
+    const saveBtn = createElement<HTMLButtonElement>(
+      document,
+      buttonContainer,
+      "button",
+      {
+        textContent: "Save",
+        type: "button",
+        className: "btn btn-success btn-md",
+        disabled: !this.canSave,
+      }
+    );
 
-    console.log(buttonContainer);
+    this.saveBtn = saveBtn;
+
     on(saveBtn, "click", async () => {
       try {
-        await this.saveNote(this.videoData);
+        if (!this.videoData) return;
 
-        console.log(this.storage.get());
+        await this.saveNote(this.videoData);
 
         this.closePopup();
       } catch (error) {
@@ -105,6 +125,8 @@ class Popup {
       const target = e.target as HTMLInputElement | HTMLTextAreaElement;
 
       this.videoData = { ...this.videoData, [target.name]: target.value };
+
+      this.saveBtn.disabled = !this.canSave;
     });
   }
 
@@ -118,6 +140,9 @@ class Popup {
   }
 
   async saveNote(video: VideoNote): Promise<void> {
+    if (!video.description || !video.title) {
+    }
+
     const existingNotes: { [videoId: string]: VideoNote[] } =
       await this.storage.get(video.id);
 

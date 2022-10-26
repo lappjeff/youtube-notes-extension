@@ -6,6 +6,10 @@ export function byId(id: string) {
   return document.getElementById(id);
 }
 
+export function byClass(className: string) {
+  return document.querySelectorAll(className)[0];
+}
+
 export function on<T extends keyof HTMLElementEventMap>(
   node: Node,
   event: T,
