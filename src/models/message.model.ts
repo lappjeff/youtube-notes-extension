@@ -7,4 +7,5 @@ export type MessageOption = `${MessageType}`;
 export interface VideoPayload {
   timestamp: string;
   videoId: string;
+  url: string;
 }

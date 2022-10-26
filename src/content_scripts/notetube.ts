@@ -52,9 +52,12 @@ function handleMessages(): void {
 
     if (!videoId) throw "Video id not found.";
 
+    const timestamp = String(Math.floor(Number(player.currentTime)));
+
     const payload: VideoPayload = {
-      timestamp: String(Math.floor(Number(player.currentTime))),
+      timestamp,
       videoId,
+      url: `https://youtu.be/${videoId}?${YTParam.TIMESTAMP}=${timestamp}`,
     };
 
     if (message === MessageType.REQUEST_VIDEO_METADATA) {
