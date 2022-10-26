@@ -140,9 +140,6 @@ class Popup {
   }
 
   async saveNote(video: VideoNote): Promise<void> {
-    if (!video.description || !video.title) {
-    }
-
     const existingNotes: { [videoId: string]: VideoNote[] } =
       await this.storage.get(video.id);
 
