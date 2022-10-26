@@ -20,14 +20,24 @@ class Popup {
       document,
       container,
       "input",
-      { name: Input.TITLE, placeholder: "Note name" }
+      {
+        name: Input.TITLE,
+        placeholder: "Note name",
+        type: "text",
+        className: "form-control mb-2",
+      }
     );
 
     const descriptionInput = createElement<HTMLTextAreaElement>(
       document,
       container,
       "textarea",
-      { name: Input.DESCRIPTION, placeholder: "Note description" }
+      {
+        name: Input.DESCRIPTION,
+        placeholder: "Note description",
+        rows: 6,
+        className: "form-control",
+      }
     );
 
     const inputs = [titleInput, descriptionInput];
@@ -36,20 +46,40 @@ class Popup {
       this.handleInput(input);
     }
 
-    const saveBtn = createElement(document, container, "button", {
-      textContent: "Save",
+    const buttonContainer = createElement(document, container, "div", {
+      className: "d-flex w-100 justify-content-between mt-2 px-0",
     });
 
+    const closeBtn = createElement(document, buttonContainer, "button", {
+      textContent: "Close",
+      type: "button",
+      className: "btn btn-danger btn-md",
+    });
+
+    const saveBtn = createElement(document, buttonContainer, "button", {
+      textContent: "Save",
+      type: "button",
+      className: "btn btn-success btn-md",
+    });
+
+    console.log(buttonContainer);
     on(saveBtn, "click", async () => {
       try {
         await this.saveNote(this.videoData);
 
         console.log(this.storage.get());
-        window.close();
+
+        this.closePopup();
       } catch (error) {
         console.error(error);
       }
     });
+
+    on(closeBtn, "click", this.closePopup);
+  }
+
+  private closePopup() {
+    window.close();
   }
 
   private async getVideoData(): Promise<void> {

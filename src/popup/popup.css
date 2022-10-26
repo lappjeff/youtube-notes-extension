@@ -1,11 +1,11 @@
+body {
+  width: 300px;
+}
+
 #popup-content {
   padding: 5px;
 
   display: flex;
   flex-direction: column;
-}
-
-input {
-  margin-bottom: 5px;
-  /* display: block; */
+  align-items: flex-start;
 }
