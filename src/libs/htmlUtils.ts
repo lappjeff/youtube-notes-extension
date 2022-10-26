@@ -1,7 +1,3 @@
-/**
- * @see https://github.com/Lusito/dict.cc-translation/blob/master/src/lib/htmlUtils.ts
- */
-
 export function byId(id: string) {
   return document.getElementById(id);
 }
