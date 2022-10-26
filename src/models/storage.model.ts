@@ -4,5 +4,4 @@ export interface VideoNote {
   description: string;
   title: string;
   startTime: string;
-  videoThumbnail?: string;
 }
