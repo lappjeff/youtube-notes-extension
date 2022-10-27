@@ -11,6 +11,10 @@
     {
       "matches": ["*://*.youtube.com/*"],
       "js": ["./content_scripts/notetube.ts"]
+    },
+    {
+      "matches": ["http://localhost/*"],
+      "js": ["./content_scripts/webapp.ts"]
     }
   ],
 
