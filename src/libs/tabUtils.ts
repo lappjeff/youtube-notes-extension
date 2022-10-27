@@ -1,5 +1,5 @@
 import browser from "webextension-polyfill";
-import { MessageOption } from "../models/message.model";
+import { Message } from "../models/message.model";
 
 export async function getActiveTab(): Promise<browser.Tabs.Tab> {
   const tab = (
@@ -13,7 +13,7 @@ export async function getActiveTab(): Promise<browser.Tabs.Tab> {
 }
 
 export async function sendMessage<T = any>(
-  message: MessageOption,
+  message: Message,
   tabId: number
 ): Promise<T> {
   const data = await browser.tabs.sendMessage(tabId, message);

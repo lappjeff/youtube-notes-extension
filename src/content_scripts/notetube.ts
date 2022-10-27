@@ -1,8 +1,4 @@
-import {
-  MessageType,
-  VideoPayload,
-  MessageOption,
-} from "../models/message.model";
+import { MessageType, VideoPayload, Message } from "../models/message.model";
 import { YTElement, YTParam } from "../models/youtube.model";
 
 (function () {
@@ -43,7 +39,7 @@ function getPlayer(): HTMLVideoElement {
 }
 
 function handleMessages(): void {
-  browser.runtime.onMessage.addListener((message: MessageOption) => {
+  browser.runtime.onMessage.addListener((message: Message) => {
     const player = getPlayer();
 
     if (!player) throw "No video player found.";
@@ -60,7 +56,7 @@ function handleMessages(): void {
       url: `https://youtu.be/${videoId}?${YTParam.TIMESTAMP}=${timestamp}`,
     };
 
-    if (message === MessageType.REQUEST_VIDEO_METADATA) {
+    if (message.type === MessageType.REQUEST_VIDEO_METADATA) {
       return Promise.resolve(payload);
     }
   });

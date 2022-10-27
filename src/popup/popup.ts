@@ -24,6 +24,7 @@ class Popup {
   public constructor() {
     this.initPopup();
     this.getVideoData();
+    this.syncData();
   }
 
   private initPopup(): void {
@@ -69,6 +70,12 @@ class Popup {
       className: "btn btn-danger btn-md",
     });
 
+    const syncBtn = createElement(document, buttonContainer, "button", {
+      textContent: "Sync",
+      type: "button",
+      className: "btn btn-secondary btn-md",
+    });
+
     const saveBtn = createElement<HTMLButtonElement>(
       document,
       buttonContainer,
@@ -96,6 +103,8 @@ class Popup {
     });
 
     on(closeBtn, "click", this.closePopup);
+
+    on(syncBtn, "click", async () => await this.syncData());
   }
 
   private closePopup() {
@@ -130,9 +139,19 @@ class Popup {
     });
   }
 
+  private async syncData() {
+    const webAppTab = (await browser.tabs.query({ title: "React App" }))[0];
+
+    if (!webAppTab) return;
+
+    const data = await this.storage.get();
+
+    await sendMessage({ type: "sync_data", payload: data }, webAppTab.id);
+  }
+
   async requestVideoData(tabId: number): Promise<VideoPayload> {
     const videoData = sendMessage<VideoPayload>(
-      "request_video_metadata",
+      { type: "request_video_metadata" },
       tabId
     );
 
@@ -146,6 +165,8 @@ class Popup {
     await this.storage.set({
       [video.id]: [video, ...(existingNotes[video.id] || [])],
     });
+
+    await this.syncData();
   }
 }
 
